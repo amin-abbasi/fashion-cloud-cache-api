@@ -44,6 +44,27 @@ schema.plugin(uniqueV, {
 // Choose your own model name
 const Cache = mongoose.model<Cache>('Cache', schema)
 
+
+async function create(key: string): Promise<Cache> {
+  const caches: Cache[] = await Cache.find({ deletedAt: 0 }).sort({ createdAt: 1 })
+
+  // Checks the cache count limit and removes the oldest data
+  if(caches.length === config.cacheLimit) {
+    console.log('>>>>>>>> Delete the oldest cache data from DB - key: ', caches[0].key)
+    await Cache.deleteOne({ _id: caches[0]._id })
+  }
+
+  // Create a new Cache data
+  const now: number = new Date().getTime()
+  const cacheData = {
+    key,
+    randomString: random.generate(),
+    ttl: now + config.ttl,
+    createdAt: now,
+  }
+  return await Cache.create(cacheData as Cache)
+}
+
 export async function createOrUpdate(key: string): Promise <Cache> {
   const now: number = new Date().getTime()
   try {
@@ -55,13 +76,7 @@ export async function createOrUpdate(key: string): Promise <Cache> {
     return await Cache.findByIdAndUpdate(cache._id, cache, { new: true }) as Cache
   } catch (error) {
     // Creates a new cache with the given `key`
-    const cacheData = {
-      key,
-      randomString: random.generate(),
-      ttl: now + config.ttl,
-      createdAt: now,
-    }
-    return await Cache.create(cacheData as Cache)
+    return await create(key)
   }
 }
 
@@ -86,14 +101,7 @@ export async function getOrUpdate(key: string): Promise<Cache> {
   } catch (error) {
     console.log('>>>>>>>> Cache miss')
     // Creates a new cache with the given `key`
-    const now: number = new Date().getTime()
-    const cacheData = {
-      key,
-      randomString: random.generate(),
-      ttl: now + config.ttl,
-      createdAt: now,
-    }
-    return await Cache.create(cacheData as Cache)
+    return await create(key)
   } finally {
     // Clear caches that exceeded their ttl
     console.log('>>>>>>>> Clear Caches...')

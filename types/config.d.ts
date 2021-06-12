@@ -19,8 +19,9 @@ export interface IRegex {
 }
 
 export interface IConfigModel {
-  readonly env       : IEnvironmentModel
-  readonly baseURL   : string
-  readonly regex     : IRegex
-  readonly ttl       : number
+  readonly env        : IEnvironmentModel
+  readonly baseURL    : string
+  readonly regex      : IRegex
+  readonly ttl        : number
+  readonly cacheLimit : number
 }

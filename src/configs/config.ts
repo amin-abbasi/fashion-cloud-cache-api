@@ -21,6 +21,9 @@ const config: IConfigModel = {
   // Time To Live (TTL) [milliseconds]
   ttl: 2 * 60 * 1000,    // 2 minutes
 
+  // Cache Limit Count
+  cacheLimit: 10,
+
 }
 
 export default config
