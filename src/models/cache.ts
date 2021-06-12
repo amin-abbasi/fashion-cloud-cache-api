@@ -45,7 +45,7 @@ schema.plugin(uniqueV, {
 const Cache = mongoose.model<Cache>('Cache', schema)
 
 
-async function create(key: string): Promise<Cache> {
+async function createCache(key: string): Promise<Cache> {
   const caches: Cache[] = await Cache.find({ deletedAt: 0 }).sort({ createdAt: 1 })
 
   // Checks the cache count limit and removes the oldest data
@@ -65,18 +65,22 @@ async function create(key: string): Promise<Cache> {
   return await Cache.create(cacheData as Cache)
 }
 
-export async function createOrUpdate(key: string): Promise <Cache> {
+async function updateCache(key: string): Promise<Cache> {
+  const cache: Cache = await details(key)
   const now: number = new Date().getTime()
+  cache.randomString = random.generate()
+  cache.ttl = now + config.ttl
+  cache.updatedAt = now
+  return await Cache.findByIdAndUpdate(cache._id, cache, { new: true }) as Cache
+}
+
+export async function createOrUpdate(key: string): Promise <Cache> {
   try {
     // Will update the existing cache with the given `key`
-    const cache: Cache = await details(key)
-    cache.randomString = random.generate()
-    cache.ttl = now + config.ttl
-    cache.updatedAt = now
-    return await Cache.findByIdAndUpdate(cache._id, cache, { new: true }) as Cache
+    return await updateCache(key)
   } catch (error) {
     // Creates a new cache with the given `key`
-    return await create(key)
+    return await createCache(key)
   }
 }
 
@@ -97,15 +101,18 @@ export async function getOrUpdate(key: string): Promise<Cache> {
   try {
     const cache: Cache = await details(key)
     console.log('>>>>>>>> Cache hit')
-    return cache
+
+    // Renew caches data that exceeded their ttl
+    const now: number = new Date().getTime()
+    if(cache.ttl < now) {
+      console.log('>>>>>>>> Renew Cache')
+      return await updateCache(key)
+    } else return cache
+
   } catch (error) {
     console.log('>>>>>>>> Cache miss')
     // Creates a new cache with the given `key`
-    return await create(key)
-  } finally {
-    // Clear caches that exceeded their ttl
-    console.log('>>>>>>>> Clear Caches...')
-
+    return await createCache(key)
   }
 }
 
