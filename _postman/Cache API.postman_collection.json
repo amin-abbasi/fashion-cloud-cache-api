@@ -1,0 +1,572 @@
+{
+	"info": {
+		"_postman_id": "12ff6cb9-01c4-4365-814f-3bd9c3ca7c7d",
+		"name": "Cache API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create or Update a Cache",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"key\": \"yy\"\n}"
+				},
+				"url": {
+					"raw": "{{base}}/caches",
+					"host": [
+						"{{base}}"
+					],
+					"path": [
+						"caches"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Create or Update a Cache",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"key\": \"xx\"\n}"
+						},
+						"url": {
+							"raw": "{{base}}/caches",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"caches"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Security-Policy",
+							"value": "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+						},
+						{
+							"key": "X-DNS-Prefetch-Control",
+							"value": "off"
+						},
+						{
+							"key": "Expect-CT",
+							"value": "max-age=0"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=15552000; includeSubDomains"
+						},
+						{
+							"key": "X-Download-Options",
+							"value": "noopen"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-Permitted-Cross-Domain-Policies",
+							"value": "none"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "no-referrer"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "0"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "232"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"e8-2AfJdgOOyC/33kl5x5lRbL1bbc8\""
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 12 Jun 2021 11:16:49 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"statusCode\": 200,\n    \"success\": true,\n    \"result\": {\n        \"deletedAt\": 0,\n        \"_id\": \"60c494a1ed1925ae9e0ec4da\",\n        \"key\": \"xx\",\n        \"randomString\": \"LMr8t5BBpBeqDrAq4BIhdgHwmF1oI9J7\",\n        \"ttl\": 1623496729407,\n        \"createdAt\": 1623495841069,\n        \"__v\": 0,\n        \"updatedAt\": 1623496609407\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "List All Keys",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{base}}/caches",
+					"host": [
+						"{{base}}"
+					],
+					"path": [
+						"caches"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "List All Keys",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{base}}/caches",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"caches"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Security-Policy",
+							"value": "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+						},
+						{
+							"key": "X-DNS-Prefetch-Control",
+							"value": "off"
+						},
+						{
+							"key": "Expect-CT",
+							"value": "max-age=0"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=15552000; includeSubDomains"
+						},
+						{
+							"key": "X-Download-Options",
+							"value": "noopen"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-Permitted-Cross-Domain-Policies",
+							"value": "none"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "no-referrer"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "0"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "54"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"36-vy7Pw5DwRpQ1VnufdZ+0cXEyVeI\""
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 12 Jun 2021 11:17:03 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"statusCode\": 200,\n    \"success\": true,\n    \"result\": [\n        \"xx\",\n        \"yy\"\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "Get Cache Details",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{base}}/caches/ff",
+					"host": [
+						"{{base}}"
+					],
+					"path": [
+						"caches",
+						"ff"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get Cache Details",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{base}}/caches/ff",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"caches",
+								"ff"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Security-Policy",
+							"value": "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+						},
+						{
+							"key": "X-DNS-Prefetch-Control",
+							"value": "off"
+						},
+						{
+							"key": "Expect-CT",
+							"value": "max-age=0"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=15552000; includeSubDomains"
+						},
+						{
+							"key": "X-Download-Options",
+							"value": "noopen"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-Permitted-Cross-Domain-Policies",
+							"value": "none"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "no-referrer"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "0"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "206"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"ce-NUUCVgFCZns1Dt7YnYvA7T5nbVY\""
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 12 Jun 2021 11:48:03 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"statusCode\": 200,\n    \"success\": true,\n    \"result\": {\n        \"deletedAt\": 0,\n        \"_id\": \"60c49ef32328c6c2870ed560\",\n        \"key\": \"ff\",\n        \"randomString\": \"fxvjZzsdvGpmxsnETKuV0yLj2QgG2bsc\",\n        \"ttl\": 1623498603716,\n        \"createdAt\": 1623498483716,\n        \"__v\": 0\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Remove a Cache",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{base}}/caches/ff",
+					"host": [
+						"{{base}}"
+					],
+					"path": [
+						"caches",
+						"ff"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Remove a Cache",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{base}}/caches/ff",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"caches",
+								"ff"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Security-Policy",
+							"value": "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+						},
+						{
+							"key": "X-DNS-Prefetch-Control",
+							"value": "off"
+						},
+						{
+							"key": "Expect-CT",
+							"value": "max-age=0"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=15552000; includeSubDomains"
+						},
+						{
+							"key": "X-Download-Options",
+							"value": "noopen"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-Permitted-Cross-Domain-Policies",
+							"value": "none"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "no-referrer"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "0"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "74"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"4a-KEPGuOYdGJn/FYTvBvXwM8Ecxjk\""
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 12 Jun 2021 11:48:21 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"statusCode\": 200,\n    \"success\": true,\n    \"result\": {\n        \"n\": 1,\n        \"ok\": 1,\n        \"deletedCount\": 1\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Rmove All Caches",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{base}}/caches",
+					"host": [
+						"{{base}}"
+					],
+					"path": [
+						"caches"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Rmove All Caches",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{base}}/caches",
+							"host": [
+								"{{base}}"
+							],
+							"path": [
+								"caches"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Security-Policy",
+							"value": "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+						},
+						{
+							"key": "X-DNS-Prefetch-Control",
+							"value": "off"
+						},
+						{
+							"key": "Expect-CT",
+							"value": "max-age=0"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=15552000; includeSubDomains"
+						},
+						{
+							"key": "X-Download-Options",
+							"value": "noopen"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-Permitted-Cross-Domain-Policies",
+							"value": "none"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "no-referrer"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "0"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "47"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"2f-Tzrzv6dOq0Mgq19oWHTvZ0V3e/Y\""
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 12 Jun 2021 11:47:41 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"statusCode\": 200,\n    \"success\": true,\n    \"result\": true\n}"
+				}
+			]
+		}
+	]
+}
