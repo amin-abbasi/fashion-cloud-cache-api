@@ -22,4 +22,5 @@ export interface IConfigModel {
   readonly env       : IEnvironmentModel
   readonly baseURL   : string
   readonly regex     : IRegex
+  readonly ttl       : number
 }

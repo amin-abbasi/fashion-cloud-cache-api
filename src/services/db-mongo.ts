@@ -23,7 +23,7 @@ if(DB_USER && DB_PASS) {
 async function connectDB(): Promise<mongoose.Connection> {
 
   // Mongoose Debug Mode [set it as `false` in production]
-  mongoose.set('debug', true)
+  // mongoose.set('debug', true)
 
   mongoose.connect(dbURL, options)
   mongoose.Promise = global.Promise // Get Mongoose to use the global promise library

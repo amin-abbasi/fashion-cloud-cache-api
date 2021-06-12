@@ -2,7 +2,7 @@
   "name": "fashion-cloud-cache-api",
   "version": "1.0.0",
   "description": "This is a cache-api project for fashion cloud company.",
-  "main": "./src/server.ts",
+  "main": "./dist/server.js",
   "scripts": {
     "build": "rm -rf ./dist && tsc",
     "start": "node dist/server.js",
@@ -31,6 +31,8 @@
     "express-winston": "4.1.0",
     "helmet": "4.6.0",
     "mongoose": "5.12.13",
+    "mongoose-unique-validator": "^2.0.3",
+    "randomstring": "^1.2.1",
     "swagger-jsdoc": "6.1.0",
     "swagger-ui-express": "4.1.6",
     "winston": "3.3.3"
@@ -41,7 +43,9 @@
     "@types/helmet": "0.0.48",
     "@types/jest": "26.0.23",
     "@types/mongoose": "5.11.96",
+    "@types/mongoose-unique-validator": "^1.0.5",
     "@types/node": "15.12.2",
+    "@types/randomstring": "^1.1.6",
     "@types/swagger-jsdoc": "6.0.0",
     "@types/swagger-ui-express": "4.1.2",
     "@typescript-eslint/eslint-plugin": "4.26.1",

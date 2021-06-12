@@ -5,12 +5,11 @@ const objectId = Joi.string().regex(config.regex.objectId)
 
 const exportResult = {
 
-  // Create new Cache
-  create: celebrate({
-    // body: {
-    //   name: Joi.string().required().description('User Name'),
-    //   userId: objectId.required().description('User ID')
-    // },
+  // Create Or Update Cache
+  createOrUpdate: celebrate({
+    body: {
+      key: Joi.string().required().description('Cache Key'),
+    },
     query: {}
   }),
 
@@ -36,28 +35,8 @@ const exportResult = {
     query: {}
   }),
 
-  // Update Cache
-  update: celebrate({
-    // body: {
-    //   name: Joi.string().description('User Name'),
-    //   userId: objectId.required().description('User ID')
-    // },
-    params: {
-      sampleId: objectId.required().description('Cache ID')
-    },
-    query: {}
-  }),
-
   // Delete Cache (Soft Delete)
   delete: celebrate({
-    params: {
-      sampleId: objectId.required().description('Cache ID')
-    },
-    query: {}
-  }),
-
-  // Secure Action
-  secureAction: celebrate({
     params: {
       sampleId: objectId.required().description('Cache ID')
     },

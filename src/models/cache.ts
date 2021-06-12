@@ -1,24 +1,15 @@
+import uniqueV  from 'mongoose-unique-validator'
 import mongoose from 'mongoose'
 import Boom     from '@hapi/boom'
+import config   from '../configs/config'
 
 const Schema = mongoose.Schema
 
-interface ILocation {
-    country  : string
-    city     : string
-    address? : string
-    coordinate?: {
-      lat: number
-      lon: number
-    }
-  }
-
 // Typescript Cache Model
 export interface Cache extends mongoose.Document {
-  name: string
-  email: string
-  any?: unknown
-  location?: ILocation
+  key : string
+  ttl : number
+  randomString : string
 
   createdAt? : number
   updatedAt? : number
@@ -26,77 +17,51 @@ export interface Cache extends mongoose.Document {
 }
 
 export interface CacheUpdate extends mongoose.Document {
-  name? : Cache['name']
-  any?  : Cache['any']
-  location?  : Cache['location']
-  updatedAt? : Cache['updatedAt']
+  key  : Cache['key']
+  ttl? : Cache['ttl']
+  randomString? : Cache['randomString']
+  updatedAt?    : Cache['updatedAt']
 }
 
 // Add your own attributes in schema
 const schema = new Schema({
-  name:  { type: Schema.Types.String, required: true },
-  email: { type: Schema.Types.String, required: true, unique: true },
-  any: Schema.Types.Mixed,    // An "anything goes" SchemaType
-
-  // Advanced Property type schema
-  location: {
-    type: {
-      _id: false,
-      country: { type: Schema.Types.String, required: true },
-      city:    { type: Schema.Types.String, required: true },
-      address: { type: Schema.Types.String },
-      coordinate: {
-        type: {
-          _id: false,
-          lat: Schema.Types.Number,
-          lon: Schema.Types.Number
-        }
-      }
-    },
-    required: true
-  },
+  key: { type: Schema.Types.String, required: true, unique: true },
+  ttl: { type: Schema.Types.Number, required: true },
+  randomString: { type: Schema.Types.String, required: true },
 
   createdAt: { type: Schema.Types.Number },
   updatedAt: { type: Schema.Types.Number },
   deletedAt: { type: Schema.Types.Number, default: 0 },
-
-  // , ... other properties ...
-},
-{
-  strict: false,  // To allow database in order to save Mixed type data in DB
-  // timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' }
 })
 
-// -------------------------------- Set Hooks (like: 'pre') for Schema --------------------------------
-// Pre Save
-// schema.pre('save', async function(next) {
-//   // ... Code Here ...
-//   const user: any = this
-//   if (!user.isModified('password')) next()
-//   try {
-//     const salt = await bcrypt.genSalt(config.saltHashFactor)
-//     user.password = await bcrypt.hash(user.password, salt)
-//     next()
-//   } catch (err) {
-//     next(err)
-//   }
-// })
-
-// Flatten model to update (patch) partial data
-// schema.pre('findOneAndUpdate', function() {
-//   this._update = flat(this._update)
-// })
-
+// Apply the Unique Property Validator plugin to schema.
+schema.plugin(uniqueV, {
+  type: 'mongoose-unique-validator',
+  message: 'Error, expected {PATH} to be unique.'
+})
 
 // Choose your own model name
 const Cache = mongoose.model<Cache>('Cache', schema)
 
-export async function add(data: Cache): Promise <Cache> {
-  const cacheData = {
-    ...data,
-    createdAt: new Date().getTime()
+export async function createOrUpdate(key: string, randomString: string): Promise <Cache> {
+  const now: number = new Date().getTime()
+  try {
+    // Will update the existing cache with given `key`
+    const cache: Cache = await details(key)
+    cache.randomString = randomString
+    cache.ttl = now + config.ttl
+    cache.updatedAt = now
+    return await Cache.findByIdAndUpdate(cache._id, cache, { new: true }) as Cache
+  } catch (error) {
+    // Creates a new cache
+    const cacheData = {
+      key,
+      randomString,
+      ttl: now + config.ttl,
+      createdAt: now,
+    }
+    return await Cache.create(cacheData as Cache)
   }
-  return await Cache.create(cacheData as Cache)
 }
 
 export interface IQueryData {
@@ -116,7 +81,7 @@ export async function list(queryData: IQueryData): Promise<{ total: number, list
   //   if(query.dateRange.to)   query.createdAt['$lte'] = query.dateRange.to
   //   delete query.dateRange
   // }
-  // if(query.name) query.name = { '$regex': query.name, '$options': 'i' }
+  // if(query.randomString) query.randomString = { '$regex': query.randomString, '$options': 'i' }
 
   const total: number = await Cache.countDocuments({ deletedAt: 0 })
   const result: Cache[] = await Cache.find(query).limit(size).skip((page - 1) * size)
@@ -126,37 +91,22 @@ export async function list(queryData: IQueryData): Promise<{ total: number, list
   }
 }
 
-export async function details(cacheId: string): Promise<Cache> {
-  const cache: Cache | null = await Cache.findById(cacheId)
+export async function details(key: string): Promise<Cache> {
+  const caches: Cache[] = await Cache.find({ key })
+  if(caches.length === 0) throw Boom.notFound('Cache not found.')
+  const cache: Cache = caches[0]
   if(!cache || cache.deletedAt !== 0) throw Boom.notFound('Cache not found.')
   return cache
 }
 
-export async function updateByQuery(query: IQueryData, data: CacheUpdate): Promise<Cache | null> {
-  const updatedData = { ...data, updatedAt: new Date().getTime() }
-  return await Cache.findOneAndUpdate(query, updatedData, { new: true })
-}
-
-export async function updateById(cacheId: string, data: CacheUpdate): Promise<Cache | null> {
-  const cache: Cache = await details(cacheId)
-  cache.updatedAt = new Date().getTime()
-  const updatedCache: Cache = { ...cache, ...data } as Cache
-  return await Cache.findByIdAndUpdate(cacheId, updatedCache, { new: true })
-}
-
-export async function softDelete(cacheId: string): Promise<Cache | null> {
-  const cache: Cache = await details(cacheId)
+export async function softDelete(key: string): Promise<Cache | null> {
+  const cache: Cache = await details(key)
   return await Cache.findByIdAndUpdate(cache.id, { deletedAt: new Date().getTime() }, { new: true })
 }
 
-export async function remove(cacheId: string): Promise<{ ok?: number, n?: number } & { deletedCount?: number }> {
-  const cache: Cache = await details(cacheId)
+export async function remove(key: string): Promise<{ ok?: number, n?: number } & { deletedCount?: number }> {
+  const cache: Cache = await details(key)
   return await Cache.deleteOne({ _id: cache.id })
-}
-
-export async function restore(cacheId: string): Promise<Cache | null> {
-  const cache: Cache = await details(cacheId)
-  return await Cache.findByIdAndUpdate(cache.id, { deletedAt: 0 }, { new: true })
 }
 
 // --------------- Swagger Models Definition ---------------
@@ -168,16 +118,18 @@ export async function restore(cacheId: string): Promise<Cache | null> {
  *      Cache:
  *        type: object
  *        required:
- *          - name
- *          - email
+ *          - key
+ *          - ttl
+ *          - randomString
  *        properties:
- *          name:
+ *          key:
  *            type: string
- *          email:
+ *          ttl:
+ *            type: integer
+ *          randomString:
  *            type: string
- *            format: email
- *            description: Email for the user, needs to be unique.
  *        example:
- *          name: 'Amin'
- *          email: 'amin@gmail.com'
+ *          key: 'zzz'
+ *          ttl: 12345678
+ *          randomString: 'xxx123'
  */

@@ -27,7 +27,7 @@ import Validator  from '../validators/cache'
  * path:
  *  /caches/:
  *    post:
- *      summary: Create a new cache
+ *      summary: Create a new cache OR Update existing one
  *      tags: [Caches]
  *      requestBody:
  *        required: true
@@ -62,7 +62,7 @@ import Validator  from '../validators/cache'
  *                  body:
  *                    type: object
  */
-router.route('').post(Validator.create, Controller.create)
+router.route('').post(Validator.createOrUpdate, Controller.createOrUpdate)
 
 /**
  * @swagger
@@ -149,50 +149,6 @@ router.route('').get(Validator.list, Controller.list)
  *                    type: object
  */
 router.route('/:cacheId').get(Validator.details, Controller.details)
-
-/**
- * @swagger
- * path:
- *  /caches/{cacheId}:
- *    put:
- *      summary: Cache Update
- *      tags: [Caches]
- *      parameters:
- *        - name: cacheId
- *          in: path
- *          description: Cache ID
- *          required: true
- *          schema:
- *            type: string
- *      responses:
- *        "200":
- *          description: Admin can update a cache
- *          content:
- *            application/json:
- *              schema:
- *                type: object
- *                properties:
- *                  success:
- *                    type: boolean
- *                    description: Response Status
- *                  result:
- *                    $ref: '#/components/schemas/Cache'
- *        "400":
- *          description: Bad request schema
- *          content:
- *            application/json:
- *              schema:
- *                type: object
- *                properties:
- *                  statusCode:
- *                    type: integer
- *                  message:
- *                    type: string
- *                  body:
- *                    type: object
- */
-router.route('/:cacheId').put(Validator.update, Controller.update)
-// router.route('/:cacheId').patch(Validator.update, Controller.update)
 
 /**
  * @swagger
