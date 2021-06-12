@@ -64,31 +64,9 @@ export async function createOrUpdate(key: string, randomString: string): Promise
   }
 }
 
-export interface IQueryData {
-  page: number
-  size: number
-  deletedAt: number       // Always filter deleted documents
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  [key: string]: any      // needs to specified later based on entity or model
-}
-
-export async function list(queryData: IQueryData): Promise<{ total: number, list: Cache[] }> {
-  const { page, size, ...query } = queryData
-
-  // if(query.dateRange) {
-  //   query.createdAt = {}
-  //   if(query.dateRange.from) query.createdAt['$gte'] = query.dateRange.from
-  //   if(query.dateRange.to)   query.createdAt['$lte'] = query.dateRange.to
-  //   delete query.dateRange
-  // }
-  // if(query.randomString) query.randomString = { '$regex': query.randomString, '$options': 'i' }
-
-  const total: number = await Cache.countDocuments({ deletedAt: 0 })
-  const result: Cache[] = await Cache.find(query).limit(size).skip((page - 1) * size)
-  return {
-    total: total,
-    list: result
-  }
+export async function listKeys(): Promise<string[]> {
+  const result: Cache[] = await Cache.find({ deletedAt: 0 })
+  return result.map(cache => cache.key)
 }
 
 export async function details(key: string): Promise<Cache> {

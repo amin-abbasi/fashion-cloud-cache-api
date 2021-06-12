@@ -16,10 +16,10 @@ const exportResult = {
   },
 
   // List all Cache
-  async list(req: Request, res: Response, next: NextFunction): Promise<void> {
+  async list(_req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      const query: CacheModel.IQueryData = req.query as CacheModel.IQueryData
-      const result = await CacheModel.list(query)
+      // const query: CacheModel.IQueryData = req.query as CacheModel.IQueryData
+      const result: string[] = await CacheModel.listKeys()
       res.result = result
       next(res)
     }
