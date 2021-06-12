@@ -1,6 +1,7 @@
 import uniqueV  from 'mongoose-unique-validator'
 import mongoose from 'mongoose'
 import Boom     from '@hapi/boom'
+import random   from 'randomstring'
 import config   from '../configs/config'
 
 const Schema = mongoose.Schema
@@ -43,20 +44,20 @@ schema.plugin(uniqueV, {
 // Choose your own model name
 const Cache = mongoose.model<Cache>('Cache', schema)
 
-export async function createOrUpdate(key: string, randomString: string): Promise <Cache> {
+export async function createOrUpdate(key: string): Promise <Cache> {
   const now: number = new Date().getTime()
   try {
-    // Will update the existing cache with given `key`
+    // Will update the existing cache with the given `key`
     const cache: Cache = await details(key)
-    cache.randomString = randomString
+    cache.randomString = random.generate()
     cache.ttl = now + config.ttl
     cache.updatedAt = now
     return await Cache.findByIdAndUpdate(cache._id, cache, { new: true }) as Cache
   } catch (error) {
-    // Creates a new cache
+    // Creates a new cache with the given `key`
     const cacheData = {
       key,
-      randomString,
+      randomString: random.generate(),
       ttl: now + config.ttl,
       createdAt: now,
     }
@@ -75,6 +76,29 @@ export async function details(key: string): Promise<Cache> {
   const cache: Cache = caches[0]
   if(!cache || cache.deletedAt !== 0) throw Boom.notFound('Cache not found.')
   return cache
+}
+
+export async function getOrUpdate(key: string): Promise<Cache> {
+  try {
+    const cache: Cache = await details(key)
+    console.log('>>>>>>>> Cache hit')
+    return cache
+  } catch (error) {
+    console.log('>>>>>>>> Cache miss')
+    // Creates a new cache with the given `key`
+    const now: number = new Date().getTime()
+    const cacheData = {
+      key,
+      randomString: random.generate(),
+      ttl: now + config.ttl,
+      createdAt: now,
+    }
+    return await Cache.create(cacheData as Cache)
+  } finally {
+    // Clear caches that exceeded their ttl
+    console.log('>>>>>>>> Clear Caches...')
+
+  }
 }
 
 export async function softDelete(key: string): Promise<Cache | null> {

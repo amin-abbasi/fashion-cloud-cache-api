@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request, Response, NextFunction } from 'express'
-import random from 'randomstring'
 import * as CacheModel from '../models/cache'
 
 const exportResult = {
@@ -8,8 +7,8 @@ const exportResult = {
   // Create Or Update Cache
   async createOrUpdate(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      const key: string = req.body.key, randomString: string = random.generate()
-      const result: CacheModel.Cache = await CacheModel.createOrUpdate(key, randomString)
+      const key: string = req.body.key
+      const result: CacheModel.Cache = await CacheModel.createOrUpdate(key)
       res.result = result
       next(res)
     } catch (err) { next(err) }
@@ -29,9 +28,9 @@ const exportResult = {
   // Show Cache Details
   async details(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      const sampleId: string = req.params.sampleId
-      const result: CacheModel.Cache = await CacheModel.details(sampleId)
-      res.result = (result as any)._doc
+      const key: string = req.params.key
+      const result: CacheModel.Cache = await CacheModel.getOrUpdate(key)
+      res.result = result
       next(res)
     }
     catch (err) { next(err) }

@@ -1,7 +1,4 @@
 import { celebrate, Joi } from 'celebrate'
-import config from '../configs/config'
-
-const objectId = Joi.string().regex(config.regex.objectId)
 
 const exportResult = {
 
@@ -24,7 +21,7 @@ const exportResult = {
   // Show Cache Details
   details: celebrate({
     params: {
-      sampleId: objectId.required().description('Cache ID')
+      key: Joi.string().required().description('Cache Key')
     },
     query: {}
   }),
@@ -32,7 +29,7 @@ const exportResult = {
   // Delete Cache (Soft Delete)
   delete: celebrate({
     params: {
-      sampleId: objectId.required().description('Cache ID')
+      key: Joi.string().required().description('Cache Key')
     },
     query: {}
   }),

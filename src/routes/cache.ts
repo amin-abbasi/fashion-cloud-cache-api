@@ -148,7 +148,7 @@ router.route('').get(Validator.list, Controller.list)
  *                  body:
  *                    type: object
  */
-router.route('/:cacheId').get(Validator.details, Controller.details)
+router.route('/:key').get(Validator.details, Controller.details)
 
 /**
  * @swagger
@@ -191,6 +191,6 @@ router.route('/:cacheId').get(Validator.details, Controller.details)
  *                  body:
  *                    type: object
  */
-router.route('/:cacheId').delete(Validator.delete, Controller.delete)
+router.route('/:key').delete(Validator.delete, Controller.delete)
 
 export default router
