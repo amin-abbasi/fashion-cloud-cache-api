@@ -100,5 +100,20 @@ dist
 # DynamoDB Local files
 .dynamodb/
 
-# TernJS port file
-.tern-port
+# package-lock
+package-lock.json
+
+# idea file
+.idea
+
+# vscode file
+.vscode
+
+# test snapshots folder
+__snapshots__
+
+# complied typescript folder
+dist
+
+# ssl Certificate folder
+# sslCert/*

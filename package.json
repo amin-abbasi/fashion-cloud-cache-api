@@ -1,0 +1,58 @@
+{
+  "name": "fashion-cloud-cache-api",
+  "version": "1.0.0",
+  "description": "This is a cache-api project for fashion cloud company.",
+  "main": "./src/server.ts",
+  "scripts": {
+    "build": "rm -rf ./dist && tsc",
+    "start": "node dist/server.js",
+    "test": "jest --updateSnapshot --detectOpenHandles --coverage --forceExit --verbose",
+    "run": "pm2 start dist/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/amin4193/fashion-cloud-cache-api.git"
+  },
+  "keywords": [
+    "typescript",
+    "cache"
+  ],
+  "author": "AAH",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/amin4193/fashion-cloud-cache-api/issues"
+  },
+  "homepage": "https://github.com/amin4193/fashion-cloud-cache-api.git#readme",
+  "dependencies": {
+    "@hapi/boom": "9.1.2",
+    "celebrate": "14.0.0",
+    "dotenv": "10.0.0",
+    "express": "4.17.1",
+    "express-winston": "4.1.0",
+    "helmet": "4.6.0",
+    "mongoose": "5.12.13",
+    "swagger-jsdoc": "6.1.0",
+    "swagger-ui-express": "4.1.6",
+    "winston": "3.3.3"
+  },
+  "devDependencies": {
+    "@types/express": "4.17.12",
+    "@types/hapi__joi": "17.1.6",
+    "@types/helmet": "0.0.48",
+    "@types/jest": "26.0.23",
+    "@types/mongoose": "5.11.96",
+    "@types/node": "15.12.2",
+    "@types/swagger-jsdoc": "6.0.0",
+    "@types/swagger-ui-express": "4.1.2",
+    "@typescript-eslint/eslint-plugin": "4.26.1",
+    "@typescript-eslint/parser": "4.26.1",
+    "eslint": "7.28.0",
+    "jest": "27.0.4",
+    "lint-staged": "11.0.0",
+    "prettier": "2.3.1",
+    "supertest": "6.1.3",
+    "ts-jest": "27.0.3",
+    "ts-node": "10.0.0",
+    "typescript": "4.3.2"
+  }
+}

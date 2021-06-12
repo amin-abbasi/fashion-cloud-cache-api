@@ -1,0 +1,45 @@
+version: '3.7'
+
+services:
+  #* --> Cache-API-Server <--
+  cache-api:
+    build:
+      context: .
+      dockerfile: node.dockerfile
+    container_name: cache-api
+    depends_on:
+      - cache-api-mongo
+    volumes:
+      - .:/usr/src
+      - /usr/src/node_modules
+    working_dir: /usr/src
+    ports:
+      - ${SERVER_PORT}:${SERVER_PORT}
+    networks:
+      - cache-api-network
+    stdin_open: true
+    tty: true
+
+  #* --> Cache-API-Database <--
+  cache-api-mongo:
+    image: mongo:latest
+    container_name: cache-api-mongo
+    # env_file:
+    #   - .env
+    # environment:
+    #   DB_PASS: ${DB_PASS}
+    #   DB_USER: ${DB_USER}
+    restart: always
+    ports:
+      - ${DB_PORT}:27017
+    volumes:
+      - db-cache-api-volume:/data/db
+
+networks:
+  cache-api-network:
+    external:
+      name: cache-api-network
+
+
+volumes:
+  db-cache-api-volume:
