@@ -15,8 +15,8 @@ services:
     working_dir: /usr/src
     ports:
       - ${SERVER_PORT}:${SERVER_PORT}
-    networks:
-      - cache-api-network
+    # networks:
+    #   - cache-api-network
     stdin_open: true
     tty: true
 
@@ -35,10 +35,10 @@ services:
     volumes:
       - db-cache-api-volume:/data/db
 
-networks:
-  cache-api-network:
-    external:
-      name: cache-api-network
+# networks:
+#   cache-api-network:
+#     external:
+#       name: cache-api-network
 
 
 volumes:
