@@ -129,7 +129,7 @@ export async function removeAll(): Promise<any> {
 // --------------- Swagger Models Definition ---------------
 
 /**
- * @swagger
+ * @openapi
  *  components:
  *    schemas:
  *      Cache:
