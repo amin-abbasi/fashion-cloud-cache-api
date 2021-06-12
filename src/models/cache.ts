@@ -101,14 +101,14 @@ export async function getOrUpdate(key: string): Promise<Cache> {
   }
 }
 
-export async function softDelete(key: string): Promise<Cache | null> {
-  const cache: Cache = await details(key)
-  return await Cache.findByIdAndUpdate(cache.id, { deletedAt: new Date().getTime() }, { new: true })
-}
-
 export async function remove(key: string): Promise<{ ok?: number, n?: number } & { deletedCount?: number }> {
   const cache: Cache = await details(key)
   return await Cache.deleteOne({ _id: cache.id })
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export async function removeAll(): Promise<any> {
+  return await Cache.collection.drop()
 }
 
 // --------------- Swagger Models Definition ---------------

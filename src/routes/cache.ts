@@ -6,12 +6,11 @@ import Controller from '../controllers/cache'
 import Validator  from '../validators/cache'
 
 // (action)             (verb)    (URI)
-// create:              POST      - /caches
-// list:                GET       - /caches
-// details:             GET       - /caches/:cacheId
-// update:              PUT       - /caches/:cacheId
-// delete:              DELETE    - /caches/:cacheId
-// do something else:   POST      - /caches/:cacheId/someOtherActionType
+// create or update:    POST      - /caches
+// list all keys:       GET       - /caches
+// details:             GET       - /caches/:key
+// delete:              DELETE    - /caches/:key
+// delete all caches:   DELETE    - /caches
 
 // ---------------------------------- Define All Cache Routes Here ----------------------------------
 
@@ -110,12 +109,12 @@ router.route('').get(Validator.list, Controller.list)
 /**
  * @swagger
  * path:
- *  /caches/{cacheId}:
+ *  /caches/{key}:
  *    get:
  *      summary: Cache Details
  *      tags: [Caches]
  *      parameters:
- *        - name: cacheId
+ *        - name: key
  *          in: path
  *          description: Cache ID
  *          required: true
@@ -153,12 +152,12 @@ router.route('/:key').get(Validator.details, Controller.details)
 /**
  * @swagger
  * path:
- *  /caches/{cacheId}:
+ *  /caches/{key}:
  *    delete:
  *      summary: Delete Cache
  *      tags: [Caches]
  *      parameters:
- *        - name: cacheId
+ *        - name: key
  *          in: path
  *          description: Cache ID
  *          required: true
@@ -192,5 +191,41 @@ router.route('/:key').get(Validator.details, Controller.details)
  *                    type: object
  */
 router.route('/:key').delete(Validator.delete, Controller.delete)
+
+/**
+ * @swagger
+ * path:
+ *  /caches/:
+ *    delete:
+ *      summary: Delete All Caches
+ *      tags: [Caches]
+ *      responses:
+ *        "200":
+ *          description: User can delete all caches [hard delete]
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                  success:
+ *                    type: boolean
+ *                    description: Response Status
+ *                  result:
+ *                    $ref: '#/components/schemas/Cache'
+ *        "400":
+ *          description: Bad request schema
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                  statusCode:
+ *                    type: integer
+ *                  message:
+ *                    type: string
+ *                  body:
+ *                    type: object
+ */
+router.route('').delete(Validator.deleteAll, Controller.deleteAll)
 
 export default router

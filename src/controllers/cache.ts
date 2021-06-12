@@ -36,22 +36,21 @@ const exportResult = {
     catch (err) { next(err) }
   },
 
-  // Archive Cache (Soft Delete)
-  async archive(req: Request, res: Response, next: NextFunction): Promise<void> {
+  // Delete Cache From DB
+  async delete(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      const sampleId: string = req.params.sampleId
-      const result = await CacheModel.softDelete(sampleId)
-      res.result = (result as any)._doc
+      const key: string = req.params.key
+      const result = await CacheModel.remove(key)
+      res.result = result
       next(res)
     }
     catch (err) { next(err) }
   },
 
-  // Delete Cache From DB
-  async delete(req: Request, res: Response, next: NextFunction): Promise<void> {
+  // Delete All Caches From DB
+  async deleteAll(_req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      const sampleId: string = req.params.sampleId
-      const result = await CacheModel.remove(sampleId)
+      const result = await CacheModel.removeAll()
       res.result = result
       next(res)
     }

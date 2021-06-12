@@ -26,11 +26,17 @@ const exportResult = {
     query: {}
   }),
 
-  // Delete Cache (Soft Delete)
+  // Delete Cache (Hard Delete)
   delete: celebrate({
     params: {
       key: Joi.string().required().description('Cache Key')
     },
+    query: {}
+  }),
+
+  // Delete All Caches (Hard Delete)
+  deleteAll: celebrate({
+    params: {},
     query: {}
   }),
 
